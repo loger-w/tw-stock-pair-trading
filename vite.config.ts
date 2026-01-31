@@ -23,4 +23,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/api/finmind': {
+        target: 'https://api.finmindtrade.com/api/v4',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/finmind/, ''),
+      },
+    },
+  },
 })

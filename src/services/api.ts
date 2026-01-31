@@ -1,7 +1,8 @@
 import type { StockPriceResponse, AnalysisPeriod } from '@/types';
 
 // FinMind API configuration
-const FINMIND_API_URL = 'https://api.finmindtrade.com/api/v4/data';
+// Use proxy to avoid CORS (Vite proxy in dev, Vercel rewrites in prod)
+const FINMIND_API_URL = '/api/finmind/data';
 const FINMIND_TOKEN = import.meta.env.VITE_FINMIND_TOKEN || '';
 
 /**
