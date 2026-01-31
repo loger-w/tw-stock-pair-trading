@@ -6,20 +6,63 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Taiwan Stock Pairs Trading Analysis System (台股雙刀戰法分析系統) - A frontend-only pairs trading analysis tool for Taiwan stocks. The system identifies arbitrage opportunities when two stocks in the same sector diverge in price, suggesting to short the relatively strong stock and long the relatively weak stock.
 
+## Commands
+
+```sh
+npm run dev        # Dev server on port 3000
+npm run build      # vite build + tsc (both must pass)
+npm run lint       # ESLint check
+npm run format     # ESLint --fix (handles formatting — no separate Prettier config)
+npm run test       # Vitest
+npm run preview    # Preview production build
+```
+
+## Build Constraints
+
+- `tsconfig.json` has `noUnusedLocals: true` and `noUnusedParameters: true`. Any unused import, variable, or destructured element is a **hard compile error** that breaks `npm run build`. Delete unused code — do not comment it out.
+- `npm run build` runs `vite build && tsc` sequentially — both the bundle and the type check must pass.
+- `src/routeTree.gen.ts` is **auto-generated** by the TanStack Router Vite plugin. Never edit it manually.
+
 ## Tech Stack
 
-- **Language**: TypeScript
-- **Build Tool**: Vite
-- **Framework**: React
-- **UI**: Tailwind CSS + Shadcn UI
-- **Charts**: ApexCharts or ECharts
+- **Language**: TypeScript (strict mode)
+- **Build Tool**: Vite 7
+- **Framework**: React 19
+- **UI**: Tailwind CSS v4 + Shadcn UI (new-york style, config in `components.json`)
+- **Charts**: ApexCharts (`react-apexcharts`)
 - **State Management**: React hooks (component-level), Zustand (cross-component)
-- **Data Fetching**: TanStack Query (with caching)
-- **Routing**: TanStack Router
-- **Date Handling**: dayjs
-- **Local Storage**: IndexedDB (for groups and stock lists)
+- **Data Fetching**: TanStack Query v5 (with caching)
+- **Routing**: TanStack Router (file-based, routes live in `src/routes/`)
+- **Local Storage**: IndexedDB via `idb` library
 - **Toast Notifications**: Sonner
-- **Code Quality**: ESLint + Prettier
+- **Code Quality**: ESLint (`@tanstack/eslint-config`)
+- **Path alias**: `@/` resolves to `./src/`
+
+## Architecture
+
+### Layout & Routing
+
+The app is a single-page two-pane layout: `Sidebar` (left) + `MainContent` (right). The root route (`src/routes/__root.tsx`) wires up `QueryClientProvider`, `Toaster`, and this layout. Currently one page route (`/` → `PairsOverview`). To add a new route, create a file under `src/routes/` — the Vite plugin auto-generates `routeTree.gen.ts`.
+
+### Data Flow
+
+```
+User clicks "Calculate"
+  → PairsOverview.handleCalculate()
+    → fetchStockPrices()          — api.ts (mock or FinMind, cached by TanStack Query)
+    → usePairCalculation()        — hook
+      → lib/calculations.ts       — pure math (ratios, stats, position sizing)
+      → lib/signals.ts            — signal classification + trading action
+    → results stored in React state, rendered as PairCards
+```
+
+### Mock vs Real API
+
+`src/services/api.ts` has a `USE_REAL_API` flag (currently `false`). When false, all price data comes from `src/services/mockData.ts` which generates deterministic seeded data. To switch to the real FinMind API, set `USE_REAL_API = true` and fill in `FINMIND_TOKEN`.
+
+### TWSE_stocks.json (509 KB)
+
+The full Taiwan stock catalog lives in `src/data/TWSE_stocks.json`. This file is **lazy-loaded** via dynamic `import()` inside `useStockSearch.ts` to avoid bundling it into the initial chunk. Do not revert this to a static import — it would exceed Vite's 500 KB chunk size warning limit on its own.
 
 ## Data Source
 
@@ -88,14 +131,14 @@ Primary: FinMind Open Data API
 
 You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScript, TypeScript, HTML, CSS and modern UI/UX frameworks (e.g., TailwindCSS, Shadcn, Radix). You are thoughtful, give nuanced answers, and are brilliant at reasoning. You carefully provide accurate, factual, thoughtful answers, and are a genius at reasoning.
 
-- Follow the user’s requirements carefully \& to the letter.
+- Follow the user's requirements carefully \& to the letter.
 - First think step-by-step - describe your plan for what to build in pseudocode, written ut in great detail.
 - Confirm, then write code!
 - Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines .
 
 - Focus on easy and readability code, over being performant.
 - Fully implement all requested functionality.
-- Leave NO todo’s, placeholders or missing pieces.
+- Leave NO todo's, placeholders or missing pieces.
 - Ensure code is complete! Verify thoroughly finalised.
 - Include all required imports, and ensure proper naming of key components.
 - Be concise Minimize any other prose.
@@ -108,7 +151,8 @@ Follow these rules when you write code:
 
 - Use early returns whenever possible to make the code more readable.
 - Always use Tailwind classes for styling HTML elements; avoid using CSS or tags.
-- Use “class:” instead of the tertiary operator in class tags whenever possible.
-- Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
-- Implement accessibility features on elements. For example, a tag should have a tabindex=“0”, aria-label, on:click, and on:keydown, and similar attributes.
-- Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
+- Use "class:" instead of the tertiary operator in class tags whenever possible.
+- Use descriptive variable and function/const names. Also, event functions should be named with a "handle" prefix, like "handleClick" for onClick and "handleKeyDown" for onKeyDown.
+- Implement accessibility features on elements. For example, a tag should have a tabindex="0", aria-label, on:click, and on:keydown, and similar attributes.
+- Use consts instead of functions, for example, "const toggle = () =>". Also, define a type if possible.
+- 始終回覆我中文

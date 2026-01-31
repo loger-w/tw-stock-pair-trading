@@ -1,10 +1,5 @@
 import { useCallback } from 'react';
-import type {
-  StockPrice,
-  StockPriceResponse,
-  PairAnalysis,
-  StockCatalog,
-} from '@/types';
+import type { StockPriceResponse, PairAnalysis, StockCatalog } from '@/types';
 import {
   generatePairs,
   buildPriceRatioHistory,
@@ -16,7 +11,7 @@ import {
   calculateCoMovementRate,
   calculateCorrelation,
 } from '@/lib/calculations';
-import { determineSignalStrength, getTradingAction } from '@/lib/signals';
+import { determineSignalStrength } from '@/lib/signals';
 
 /**
  * Hook to calculate pair analysis results
@@ -29,7 +24,7 @@ export const usePairCalculation = () => {
     (
       stockIds: string[],
       priceData: StockPriceResponse,
-      stockCatalog: StockCatalog
+      stockCatalog: StockCatalog,
     ): PairAnalysis[] => {
       // Generate all directional pairs
       const pairs = generatePairs(stockIds);
@@ -65,8 +60,15 @@ export const usePairCalculation = () => {
         const currentRatio = latestRatio.ratio;
 
         // Calculate core indicators
-        const arbitrageSpace = calculateArbitrageSpace(currentRatio, historicalMean);
-        const zScore = calculateZScore(currentRatio, historicalMean, historicalStdDev);
+        const arbitrageSpace = calculateArbitrageSpace(
+          currentRatio,
+          historicalMean,
+        );
+        const zScore = calculateZScore(
+          currentRatio,
+          historicalMean,
+          historicalStdDev,
+        );
 
         // Calculate co-movement and correlation
         const changesA = calculateDailyChanges(pricesA);
@@ -76,13 +78,13 @@ export const usePairCalculation = () => {
         // Calculate correlation using closing prices
         const closePricesA = pricesA.map((p) => p.close);
         const closePricesB = pricesB.map((p) => p.close);
-        const correlationCoef = calculateCorrelation(closePricesA, closePricesB);
+        const correlationCoef = calculateCorrelation(
+          closePricesA,
+          closePricesB,
+        );
 
         // Determine signal strength
         const signalStrength = determineSignalStrength(arbitrageSpace, zScore);
-
-        // Get trading actions
-        const { stockAAction, stockBAction } = getTradingAction(arbitrageSpace);
 
         // Calculate today's change
         const stockACurrentPrice = pricesA[pricesA.length - 1].close;
@@ -91,12 +93,12 @@ export const usePairCalculation = () => {
         const stockAChange =
           pricesA.length > 1
             ? (stockACurrentPrice - pricesA[pricesA.length - 2].close) /
-              pricesA[pricesA.length - 2].close
+            pricesA[pricesA.length - 2].close
             : 0;
         const stockBChange =
           pricesB.length > 1
             ? (stockBCurrentPrice - pricesB[pricesB.length - 2].close) /
-              pricesB[pricesB.length - 2].close
+            pricesB[pricesB.length - 2].close
             : 0;
 
         // Get stock names
@@ -129,7 +131,7 @@ export const usePairCalculation = () => {
 
       return results;
     },
-    []
+    [],
   );
 
   /**
@@ -139,7 +141,7 @@ export const usePairCalculation = () => {
     (
       stockIds: string[],
       priceData: StockPriceResponse,
-      minDays: number
+      minDays: number,
     ): { validStockIds: string[]; excludedStockIds: string[] } => {
       const validStockIds: string[] = [];
       const excludedStockIds: string[] = [];
@@ -158,7 +160,7 @@ export const usePairCalculation = () => {
 
       return { validStockIds, excludedStockIds };
     },
-    []
+    [],
   );
 
   return {
@@ -170,9 +172,11 @@ export const usePairCalculation = () => {
 /**
  * Sort pair analysis results by signal strength
  */
-export const sortBySignalStrength = (results: PairAnalysis[]): PairAnalysis[] => {
+export const sortBySignalStrength = (
+  results: PairAnalysis[],
+): PairAnalysis[] => {
   const signalOrder: Record<string, number> = {
-    'super-strong': 0,
+    "super-strong": 0,
     strong: 1,
     medium: 2,
     weak: 3,

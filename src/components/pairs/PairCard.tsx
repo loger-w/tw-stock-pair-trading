@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { SignalBadge } from './SignalBadge';
-import { getTradingAction, getActionColor } from '@/lib/signals';
+import { getTradingAction } from '@/lib/signals';
 import { formatPercent } from '@/lib/calculations';
 import { ACTION_LABELS } from '@/lib/constants';
 import type { PairAnalysis } from '@/types';

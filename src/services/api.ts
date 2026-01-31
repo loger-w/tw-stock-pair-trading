@@ -1,12 +1,8 @@
 import type { StockPriceResponse, AnalysisPeriod } from '@/types';
-import { fetchMockStockPrices } from './mockData';
-
-// Set to true to use real FinMind API, false for mock data
-const USE_REAL_API = false;
 
 // FinMind API configuration
 const FINMIND_API_URL = 'https://api.finmindtrade.com/api/v4/data';
-const FINMIND_TOKEN = ''; // Add your token here when ready
+const FINMIND_TOKEN = import.meta.env.VITE_FINMIND_TOKEN || '';
 
 /**
  * Fetch stock prices from FinMind API
@@ -28,10 +24,13 @@ const fetchFromFinMind = async (
       data_id: stockId,
       start_date: startDate.toISOString().split('T')[0],
       end_date: endDate.toISOString().split('T')[0],
-      ...(FINMIND_TOKEN && { token: FINMIND_TOKEN }),
     });
 
-    const response = await fetch(`${FINMIND_API_URL}?${params}`);
+    const response = await fetch(`${FINMIND_API_URL}?${params}`, {
+      headers: {
+        Authorization: `Bearer ${FINMIND_TOKEN}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${stockId}`);
@@ -72,8 +71,7 @@ const fetchFromFinMind = async (
 };
 
 /**
- * Fetch stock prices (abstraction layer)
- * Uses mock data by default, can switch to real API
+ * Fetch stock prices from FinMind API
  */
 export const fetchStockPrices = async (
   stockIds: string[],
@@ -83,11 +81,11 @@ export const fetchStockPrices = async (
     return {};
   }
 
-  if (USE_REAL_API && FINMIND_TOKEN) {
-    return fetchFromFinMind(stockIds, period);
+  if (!FINMIND_TOKEN) {
+    throw new Error('請先設定 FinMind API Token');
   }
 
-  return fetchMockStockPrices(stockIds, period);
+  return fetchFromFinMind(stockIds, period);
 };
 
 /**

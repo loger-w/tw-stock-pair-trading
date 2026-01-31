@@ -1,27 +1,38 @@
-import { useCallback, useMemo, useState } from "react";
-import stockData from "../data/TWSE_stocks.json";
-import type { StockCatalog, StockInfo } from "@/types";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { StockCatalog, StockInfo } from '@/types';
 
-// Type assertion for the imported JSON
-const STOCK_CATALOG = stockData as StockCatalog;
+type StockListItem = StockInfo & { searchText: string };
 
-// Create a searchable array from the catalog
-const STOCK_LIST: Array<StockInfo & { searchText: string }> = Object.values(
-  STOCK_CATALOG,
-).map((stock) => ({
-  ...stock,
-  searchText: `${stock.代號} ${stock.名稱}`.toLowerCase(),
-}));
+// Module-level cache — loaded once, shared across all hook instances
+let catalogCache: StockCatalog | null = null;
+let listCache: StockListItem[] | null = null;
+
+const loadStockData = async (): Promise<void> => {
+  if (catalogCache) return;
+  const module = await import("../data/TWSE_stocks.json");
+  catalogCache = module.default as StockCatalog;
+  listCache = Object.values(catalogCache).map((stock) => ({
+    ...stock,
+    searchText: `${stock.代號} ${stock.名稱}`.toLowerCase(),
+  }));
+};
 
 /**
  * Hook for stock search and autocomplete
  */
 export const useStockSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [catalog, setCatalog] = useState<StockCatalog | null>(catalogCache);
+  const [stockList, setStockList] = useState<StockListItem[]>(listCache ?? []);
 
-  /**
-   * Search results filtered by query
-   */
+  useEffect(() => {
+    if (catalogCache) return;
+    loadStockData().then(() => {
+      setCatalog(catalogCache);
+      setStockList(listCache!);
+    });
+  }, []);
+
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) {
       return [];
@@ -29,8 +40,7 @@ export const useStockSearch = () => {
 
     const query = searchQuery.toLowerCase().trim();
 
-    // Exact code match first
-    const exactMatch = STOCK_LIST.filter(
+    const exactMatch = stockList.filter(
       (stock) => stock.代號.toLowerCase() === query,
     );
 
@@ -38,44 +48,42 @@ export const useStockSearch = () => {
       return exactMatch;
     }
 
-    // Partial match (limit to 10 results)
-    return STOCK_LIST.filter((stock) => stock.searchText.includes(query)).slice(
-      0,
-      10,
-    );
-  }, [searchQuery]);
+    return stockList
+      .filter((stock) => stock.searchText.includes(query))
+      .slice(0, 10);
+  }, [searchQuery, stockList]);
 
-  /**
-   * Check if a stock code is valid
-   */
-  const isValidStockCode = useCallback((code: string): boolean => {
-    return code in STOCK_CATALOG;
-  }, []);
+  const isValidStockCode = useCallback(
+    (code: string): boolean => {
+      return catalog ? code in catalog : false;
+    },
+    [catalog],
+  );
 
-  /**
-   * Get stock info by code
-   */
-  const getStockInfo = useCallback((code: string): StockInfo | null => {
-    return STOCK_CATALOG[code] || null;
-  }, []);
+  const getStockInfo = useCallback(
+    (code: string): StockInfo | null => {
+      return catalog?.[code] || null;
+    },
+    [catalog],
+  );
 
-  /**
-   * Get stock name by code
-   */
-  const getStockName = useCallback((code: string): string => {
-    return STOCK_CATALOG[code]?.名稱 || code;
-  }, []);
+  const getStockName = useCallback(
+    (code: string): string => {
+      return catalog?.[code]?.名稱 || code;
+    },
+    [catalog],
+  );
 
-  /**
-   * Format stock display: "代號 名稱"
-   */
-  const formatStockDisplay = useCallback((code: string): string => {
-    const info = STOCK_CATALOG[code];
-    if (info) {
-      return `${info.代號} ${info.名稱}`;
-    }
-    return code;
-  }, []);
+  const formatStockDisplay = useCallback(
+    (code: string): string => {
+      const info = catalog?.[code];
+      if (info) {
+        return `${info.代號} ${info.名稱}`;
+      }
+      return code;
+    },
+    [catalog],
+  );
 
   return {
     searchQuery,
@@ -85,11 +93,6 @@ export const useStockSearch = () => {
     getStockInfo,
     getStockName,
     formatStockDisplay,
-    stockCatalog: STOCK_CATALOG,
+    stockCatalog: catalog ?? {},
   };
 };
-
-/**
- * Get the full stock catalog
- */
-export const getStockCatalog = (): StockCatalog => STOCK_CATALOG;
