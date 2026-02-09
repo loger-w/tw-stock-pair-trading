@@ -1,10 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { PairsOverview } from '@/components/pairs/PairsOverview';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
-  component: HomePage,
+  beforeLoad: () => {
+    throw redirect({ to: '/pairs' });
+  },
 });
-
-function HomePage() {
-  return <PairsOverview />;
-}

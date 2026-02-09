@@ -9,8 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PairsRouteImport } from './routes/pairs'
+import { Route as DisposalRouteImport } from './routes/disposal'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PairsRoute = PairsRouteImport.update({
+  id: '/pairs',
+  path: '/pairs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisposalRoute = DisposalRouteImport.update({
+  id: '/disposal',
+  path: '/disposal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +31,50 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/disposal': typeof DisposalRoute
+  '/pairs': typeof PairsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/disposal': typeof DisposalRoute
+  '/pairs': typeof PairsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/disposal': typeof DisposalRoute
+  '/pairs': typeof PairsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/disposal' | '/pairs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/disposal' | '/pairs'
+  id: '__root__' | '/' | '/disposal' | '/pairs'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DisposalRoute: typeof DisposalRoute
+  PairsRoute: typeof PairsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pairs': {
+      id: '/pairs'
+      path: '/pairs'
+      fullPath: '/pairs'
+      preLoaderRoute: typeof PairsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disposal': {
+      id: '/disposal'
+      path: '/disposal'
+      fullPath: '/disposal'
+      preLoaderRoute: typeof DisposalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DisposalRoute: DisposalRoute,
+  PairsRoute: PairsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
