@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { fetchDisposalDataFromSources } from './lib/disposal-core';
+import { fetchDisposalDataFromSources } from './lib/disposal-core.js';
 
 /**
  * Vercel Serverless Function: 處置系統 API

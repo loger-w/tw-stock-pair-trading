@@ -3,6 +3,10 @@
     {
       "source": "/api/finmind/:path*",
       "destination": "https://api.finmindtrade.com/api/v4/:path*"
+    },
+    {
+      "source": "/((?!api).*)",
+      "destination": "/index.html"
     }
   ]
 }

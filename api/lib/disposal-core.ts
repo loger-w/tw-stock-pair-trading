@@ -12,13 +12,13 @@ import {
   type TpexWarningNoteItem,
   type TpexDisposalItem,
   type DisposalApiResponse,
-} from './types';
+} from './types.js';
 import {
   transformTwseAttentionStocks,
   transformTwseDisposalStocks,
   transformTpexAttentionStocks,
   transformTpexDisposalStocks,
-} from './disposal-transformer';
+} from './disposal-transformer.js';
 
 /**
  * 安全地 fetch JSON 資料
