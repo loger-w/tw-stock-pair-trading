@@ -1,10 +1,10 @@
 import { Folder, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteGroupDialog } from './DeleteGroupDialog';
-import { useStockSearch } from '@/hooks/useStockSearch';
-import type { StockGroup } from '@/types';
+import { useStockSearch } from '@/hooks/pairs/useStockSearch';
+import type { StockGroup } from '@/types/pairs';
 import { cn } from '@/lib/utils';
-import { GROUP_CONSTRAINTS } from '@/lib/constants';
+import { GROUP_CONSTRAINTS } from '@/lib/pairs/constants';
 
 interface GroupItemProps {
   group: StockGroup;

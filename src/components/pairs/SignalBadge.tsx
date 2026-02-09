@@ -1,5 +1,5 @@
-import type { SignalStrength } from '@/types';
-import { getSignalLabel, getSignalBadgeClasses } from '@/lib/signals';
+import type { SignalStrength } from '@/types/pairs';
+import { getSignalLabel, getSignalBadgeClasses } from '@/lib/pairs/signals';
 import { cn } from '@/lib/utils';
 
 interface SignalBadgeProps {

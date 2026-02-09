@@ -1,5 +1,5 @@
-import { useStockGroups } from '@/hooks/useStockGroups';
-import { useAppStore } from '@/stores/appStore';
+import { useStockGroups } from '@/hooks/pairs/useStockGroups';
+import { useAppStore } from '@/stores/pairs/appStore';
 import { GroupItem } from './GroupItem';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FolderOpen } from 'lucide-react';

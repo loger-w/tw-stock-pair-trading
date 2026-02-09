@@ -1,9 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { SignalBadge } from '@/components/pairs/SignalBadge';
-import { getTradingAction, getSignalLabel } from '@/lib/signals';
-import { formatPercent, formatPrice } from '@/lib/calculations';
-import { ACTION_LABELS, COLORS } from '@/lib/constants';
-import type { PairAnalysis } from '@/types';
+import { getTradingAction, getSignalLabel } from '@/lib/pairs/signals';
+import { formatPercent, formatPrice } from '@/lib/pairs/calculations';
+import { ACTION_LABELS, COLORS } from '@/lib/pairs/constants';
+import type { PairAnalysis } from '@/types/pairs';
 
 interface InfoCardsProps {
   pair: PairAnalysis;

@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useRemoveStockFromGroup } from '@/hooks/useStockGroups';
+import { useRemoveStockFromGroup } from '@/hooks/pairs/useStockGroups';
 import { toast } from 'sonner';
 
 interface DeleteStockDialogProps {

@@ -1,6 +1,6 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
-import type { StockGroup } from '@/types';
-import { DB_CONFIG } from '@/lib/constants';
+import type { StockGroup } from '@/types/pairs';
+import { DB_CONFIG } from '@/lib/pairs/constants';
 
 interface PairsTradingDB extends DBSchema {
   groups: {

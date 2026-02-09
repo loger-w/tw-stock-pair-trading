@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { COLORS } from '@/lib/constants';
-import type { PairAnalysis } from '@/types';
+import { COLORS } from '@/lib/pairs/constants';
+import type { PairAnalysis } from '@/types/pairs';
 import type { ApexOptions } from 'apexcharts';
 
 interface PriceRatioChartProps {

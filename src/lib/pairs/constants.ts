@@ -1,4 +1,4 @@
-import type { AnalysisPeriod } from '@/types';
+import type { AnalysisPeriod } from '@/types/pairs';
 
 // Color palette
 export const COLORS = {

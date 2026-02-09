@@ -1,4 +1,4 @@
-import type { StockPriceResponse, AnalysisPeriod } from '@/types';
+import type { StockPriceResponse, AnalysisPeriod } from '@/types/pairs';
 
 // FinMind API configuration
 // Use proxy to avoid CORS (Vite proxy in dev, Vercel rewrites in prod)

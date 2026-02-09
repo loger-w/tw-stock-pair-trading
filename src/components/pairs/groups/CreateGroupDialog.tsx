@@ -12,8 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useCreateGroup } from '@/hooks/useStockGroups';
-import { useAppStore } from '@/stores/appStore';
+import { useCreateGroup } from '@/hooks/pairs/useStockGroups';
+import { useAppStore } from '@/stores/pairs/appStore';
 import { toast } from 'sonner';
 
 export const CreateGroupDialog = () => {

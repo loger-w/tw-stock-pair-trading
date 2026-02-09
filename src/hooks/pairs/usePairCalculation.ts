@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { StockPriceResponse, PairAnalysis, StockCatalog } from '@/types';
+import type { StockPriceResponse, PairAnalysis, StockCatalog } from '@/types/pairs';
 import {
   generatePairs,
   buildPriceRatioHistory,
@@ -10,8 +10,8 @@ import {
   calculateDailyChanges,
   calculateCoMovementRate,
   calculateCorrelation,
-} from '@/lib/calculations';
-import { determineSignalStrength } from '@/lib/signals';
+} from '@/lib/pairs/calculations';
+import { determineSignalStrength } from '@/lib/pairs/signals';
 
 /**
  * Hook to calculate pair analysis results

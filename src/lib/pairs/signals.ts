@@ -1,4 +1,4 @@
-import type { SignalStrength } from '@/types';
+import type { SignalStrength } from '@/types/pairs';
 import { COLORS, SIGNAL_LABELS } from './constants';
 
 /**

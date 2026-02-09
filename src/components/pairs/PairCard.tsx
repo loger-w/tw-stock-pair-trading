@@ -1,10 +1,10 @@
 import { ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { SignalBadge } from './SignalBadge';
-import { getTradingAction } from '@/lib/signals';
-import { formatPercent } from '@/lib/calculations';
-import { ACTION_LABELS } from '@/lib/constants';
-import type { PairAnalysis } from '@/types';
+import { getTradingAction } from '@/lib/pairs/signals';
+import { formatPercent } from '@/lib/pairs/calculations';
+import { ACTION_LABELS } from '@/lib/pairs/constants';
+import type { PairAnalysis } from '@/types/pairs';
 import { cn } from '@/lib/utils';
 
 interface PairCardProps {

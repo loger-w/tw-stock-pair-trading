@@ -10,8 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useDeleteGroup } from '@/hooks/useStockGroups';
-import { useAppStore } from '@/stores/appStore';
+import { useDeleteGroup } from '@/hooks/pairs/useStockGroups';
+import { useAppStore } from '@/stores/pairs/appStore';
 
 interface DeleteGroupDialogProps {
   groupId: string;

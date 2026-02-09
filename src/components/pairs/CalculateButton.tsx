@@ -1,6 +1,6 @@
 import { Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { GROUP_CONSTRAINTS } from '@/lib/constants';
+import { GROUP_CONSTRAINTS } from '@/lib/pairs/constants';
 
 interface CalculateButtonProps {
   stockCount: number;

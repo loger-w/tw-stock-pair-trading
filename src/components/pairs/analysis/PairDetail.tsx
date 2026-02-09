@@ -3,8 +3,8 @@ import { Separator } from '@/components/ui/separator';
 import { InfoCards } from './InfoCards';
 import { PriceRatioChart } from './PriceRatioChart';
 import { DualPriceChart } from './DualPriceChart';
-import { PositionCalculator } from '@/components/calculator/PositionCalculator';
-import type { PairAnalysis } from '@/types';
+import { PositionCalculator } from '@/components/pairs/calculator/PositionCalculator';
+import type { PairAnalysis } from '@/types/pairs';
 
 interface PairDetailProps {
   pair: PairAnalysis;

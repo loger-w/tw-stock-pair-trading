@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchStockPrices } from '@/services/api';
-import type { AnalysisPeriod, StockPriceResponse } from '@/types';
-import { QUERY_KEYS, STOCK_PRICES_STALE_TIME } from '@/lib/constants';
+import { fetchStockPrices } from '@/services/pairs/api';
+import type { AnalysisPeriod, StockPriceResponse } from '@/types/pairs';
+import { QUERY_KEYS, STOCK_PRICES_STALE_TIME } from '@/lib/pairs/constants';
 
 /**
  * Hook to fetch stock prices for multiple stocks

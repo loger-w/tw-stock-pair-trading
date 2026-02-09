@@ -1,5 +1,5 @@
 import { StockItem } from './StockItem';
-import { useStockSearch } from '@/hooks/useStockSearch';
+import { useStockSearch } from '@/hooks/pairs/useStockSearch';
 
 interface StockListProps {
   groupId: string;

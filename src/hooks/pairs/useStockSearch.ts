@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { StockCatalog, StockInfo } from '@/types';
+import type { StockCatalog, StockInfo } from '@/types/pairs';
 
 type StockListItem = StockInfo & { searchText: string };
 
@@ -9,7 +9,7 @@ let listCache: StockListItem[] | null = null;
 
 const loadStockData = async (): Promise<void> => {
   if (catalogCache) return;
-  const module = await import("../data/TWSE_stocks.json");
+  const module = await import("../../data/TWSE_stocks.json");
   catalogCache = module.default as StockCatalog;
   listCache = Object.values(catalogCache).map((stock) => ({
     ...stock,

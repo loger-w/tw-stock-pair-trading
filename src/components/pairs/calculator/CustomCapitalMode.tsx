@@ -1,10 +1,10 @@
 import { useState, useMemo, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { calculateCustomPosition, formatCurrency } from '@/lib/calculations';
-import { getTradingAction } from '@/lib/signals';
-import { ACTION_LABELS, COLORS } from '@/lib/constants';
-import type { PairAnalysis } from '@/types';
+import { calculateCustomPosition, formatCurrency } from '@/lib/pairs/calculations';
+import { getTradingAction } from '@/lib/pairs/signals';
+import { ACTION_LABELS, COLORS } from '@/lib/pairs/constants';
+import type { PairAnalysis } from '@/types/pairs';
 
 interface CustomCapitalModeProps {
   pair: PairAnalysis;

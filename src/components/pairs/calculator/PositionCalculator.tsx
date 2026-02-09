@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { MinCapitalMode } from './MinCapitalMode';
 import { CustomCapitalMode } from './CustomCapitalMode';
-import type { PairAnalysis } from '@/types';
+import type { PairAnalysis } from '@/types/pairs';
 
 interface PositionCalculatorProps {
   pair: PairAnalysis;

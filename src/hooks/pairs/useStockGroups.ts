@@ -8,9 +8,9 @@ import {
   addStockToGroup,
   removeStockFromGroup,
   generateId,
-} from '@/services/db';
-import type { StockGroup } from '@/types';
-import { QUERY_KEYS } from '@/lib/constants';
+} from '@/services/pairs/db';
+import type { StockGroup } from '@/types/pairs';
+import { QUERY_KEYS } from '@/lib/pairs/constants';
 
 /**
  * Hook to get all stock groups

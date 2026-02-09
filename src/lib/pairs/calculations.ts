@@ -1,4 +1,4 @@
-import type { StockPrice, PriceRatio, PositionResult } from '@/types';
+import type { StockPrice, PriceRatio, PositionResult } from '@/types/pairs';
 import { LOT_SIZE } from './constants';
 
 /**

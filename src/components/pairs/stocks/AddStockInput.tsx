@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useStockSearch } from '@/hooks/useStockSearch';
-import { useAddStockToGroup } from '@/hooks/useStockGroups';
-import { GROUP_CONSTRAINTS } from '@/lib/constants';
+import { useStockSearch } from '@/hooks/pairs/useStockSearch';
+import { useAddStockToGroup } from '@/hooks/pairs/useStockGroups';
+import { GROUP_CONSTRAINTS } from '@/lib/pairs/constants';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 

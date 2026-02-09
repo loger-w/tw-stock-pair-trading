@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import type { AnalysisPeriod } from '@/types';
-import { DEFAULT_ANALYSIS_PERIOD } from '@/lib/constants';
+import type { AnalysisPeriod } from '@/types/pairs';
+import { DEFAULT_ANALYSIS_PERIOD } from '@/lib/pairs/constants';
 
 interface AppState {
   // Selected group

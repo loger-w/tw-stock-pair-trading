@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { calculateMinPosition, formatCurrency } from '@/lib/calculations';
-import { getTradingAction } from '@/lib/signals';
-import { ACTION_LABELS, COLORS } from '@/lib/constants';
-import type { PairAnalysis } from '@/types';
+import { calculateMinPosition, formatCurrency } from '@/lib/pairs/calculations';
+import { getTradingAction } from '@/lib/pairs/signals';
+import { ACTION_LABELS, COLORS } from '@/lib/pairs/constants';
+import type { PairAnalysis } from '@/types/pairs';
 
 interface MinCapitalModeProps {
   pair: PairAnalysis;
